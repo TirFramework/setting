@@ -1,0 +1,28 @@
+{
+    "name": "tir/setting",
+    "description": "The setting manager for Tir Framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tirdad Abbasi",
+            "email": "abbasi.tirdad@gmail.com"
+        }
+    ],
+    "require": {
+        "tir/crud": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Tir\\Setting\\": "src/"
+        }
+    },
+
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tir\\Setting\\SettingServiceProvider"
+            ]
+        }
+    }
+}
