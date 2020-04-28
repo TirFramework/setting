@@ -22,7 +22,10 @@
         "laravel": {
             "providers": [
                 "Tir\\Setting\\SettingServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Stg": "Tir\\Setting\\Facades\\Stg"
+            }
         }
     }
 }

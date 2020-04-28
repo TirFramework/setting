@@ -1,6 +1,6 @@
 <?php
 
-namespace Tir\Setting\Helpers;
+namespace Tir\Setting\Facades;
 
 class Stg
 {
@@ -15,7 +15,6 @@ class Stg
      */
     public static function get($key = null, $default = null)
     {
-        return false;
         if (is_null($key)) {
             return app('setting');
         }

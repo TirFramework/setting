@@ -4,6 +4,8 @@ namespace Tir\Setting;
 
 
 use Illuminate\Support\ServiceProvider;
+use Tir\Setting\Repository as SettingRepository;
+use Tir\Setting\Entities\Setting;
 
 
 class SettingServiceProvider extends ServiceProvider
@@ -16,7 +18,7 @@ class SettingServiceProvider extends ServiceProvider
 
     public function register()
     {
-
+        $this->registerSetting();
     }
 
     /**
@@ -26,6 +28,23 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
+        $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
 
+    }
+
+
+
+
+    /**
+     * Register setting binding.
+     *
+     * @return void
+     */
+    private function registerSetting()
+    {
+        $this->app->singleton('setting', function () {
+            return new SettingRepository(Setting::allCached());
+        });
     }
 }
