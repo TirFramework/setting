@@ -28,7 +28,7 @@ class Setting extends CrudModel
      *
      * @var array
      */
-    protected $fillable = ['key', 'is_translatable', 'plain_value', 'value'];
+    protected $fillable = ['key', 'is_translatable', 'plain_value'];
 
 
     /**
@@ -153,7 +153,7 @@ class Setting extends CrudModel
      */
     public static function get($key, $default = null)
     {
-        return static::where('key', $key)->first()->value ?? $default;
+        return static::where('key', $key)->first()->value() ?? $default;
     }
 
     /**
@@ -199,5 +199,22 @@ class Setting extends CrudModel
             ]);
         }
     }
+
+    //Mutators ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the value of the setting.
+     *
+     * @return mixed
+     */
+    public function getValueAttribute()
+    {
+        if ($this->is_translatable) {
+            return $this->translateOrDefault(Crud::locale())->value ?? null;
+        }
+
+        return $this->plain_value;
+    }
+
 
 }
