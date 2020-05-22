@@ -13,10 +13,6 @@ class AdminSettingController extends CrudController
     protected $model = Setting::Class;
 
 
-
-
-
-
     /**
      * This function update crud and relations
      * @param Request $request
@@ -58,8 +54,6 @@ class AdminSettingController extends CrudController
 
                 if($settingTranslation){
                     $settingTranslation->update(['value' => $value]);
-                } else {
-                    settingTranslation::create(['value' => $value , 'setting_id' => $setting->id, 'locale' => config('app.locale') ]);
                 }
 
             }
@@ -88,19 +82,14 @@ class AdminSettingController extends CrudController
         foreach($settings as $setting){
             if($setting->is_translatable){
                 $translatable[$setting->key] = $setting->value;
-                //array_push($translatable, [$setting->key => $setting->value]);
-             
+
             }else{
                 $item->{$setting->key} = $setting->value;
             }
         }
 
-        //$item = json_decode(json_encode($item));
 
         $item->{'translatable'}= $translatable;
-
-     // return dd($item);
-
         return view("setting::admin.edit")->with(['crud'=>$this->crud, 'item'=>$item]);
 
 
@@ -109,10 +98,3 @@ class AdminSettingController extends CrudController
 
 }
 
-
-class settings {
-
-   // public $translatable;
-
-        
-}

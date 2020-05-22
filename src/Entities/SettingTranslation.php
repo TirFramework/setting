@@ -19,8 +19,5 @@ class SettingTranslation extends TranslationModel
      *
      * @var array
      */
-    protected $casts = [
-        'value' => 'array'
 
-    ];
 }
