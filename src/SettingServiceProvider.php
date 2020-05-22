@@ -29,6 +29,7 @@ class SettingServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
+        $this->loadViewsFrom(__DIR__.'/Resources/Views', 'setting');
         $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
 
     }
