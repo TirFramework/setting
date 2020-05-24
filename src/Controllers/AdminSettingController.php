@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 use Tir\Setting\Entities\Setting;
 
 use Tir\Crud\Controllers\CrudController;
-use Tir\Setting\Entities\SettingTranslation;
+use Tir\Setting\Entities\StorefrontSettingTranslation;
 
 class AdminSettingController extends CrudController
 {
     protected $model = Setting::Class;
-
 
     /**
      * This function update crud and relations
@@ -21,45 +20,26 @@ class AdminSettingController extends CrudController
     public function updateSetting(Request $request)
     {
 
-        
-        //update item
-
-        // return $request->all();
-
-
-        // $setting = Setting::where('key','store_name')->first();
-
-        // $setting->translations->where('locale',config('app.locale'))->update(['value',$value]);
-
-
-        // dd();
-
-        // dd($request->except('method', '_token'));
         foreach($request->except('_method', '_token','save_close','translatable') as $setting => $value){
-            
+
             $setting = Setting::where('key',$setting)->first();
-            
+
             if($setting != null)
             {
-                $setting->update(['plain_value' => $value ]);                
+                $setting->update(['plain_value' => $value ]);
             }
 
         }
 
+        //save translatable setting
         foreach( $request->input('translatable') as  $setting => $value){
             $setting = Setting::where('key',$setting)->first();
             if($setting != null)
             {
-                $settingTranslation = settingTranslation::where('setting_id', $setting->id)->where('locale',config('app.locale'))->first();                
-
-                if($settingTranslation){
-                    $settingTranslation->update(['value' => $value]);
-                }
+                $setting->update(['value' => $value]);
 
             }
         }
-
-
 
         return redirect()->back();
 
@@ -73,7 +53,7 @@ class AdminSettingController extends CrudController
     public function editSetting()
     {
 
-   
+
         $settings = Setting::all();
 
         $item = (object)[];

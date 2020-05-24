@@ -339,30 +339,6 @@ class Setting extends CrudModel
             'ZW' =>'Zimbabwe',
         ];
 
-
-
-        // $fields = [
-        //     [
-        //         'name' => 'basic_information',
-        //         'type' => 'group',
-        //         'visible'    => 'ce',
-        //         'tabs'=>  [
-        //             [
-        //                 'name'  => 'setting_information',
-        //                 'type'  => 'tab',
-        //                 'visible'    => 'ce',
-        //                 'fields' => [
-        //                     [
-        //                         'name'      => 'customer_role',
-        //                         'type'      => 'text',
-        //                         'visible'   => 'ce',
-        //                     ],
-        //                 ]
-        //             ]
-        //         ]
-        //     ]
-        // ];
-        
         $fields = [
             [
                 'name' => 'basic_information',
