@@ -476,7 +476,7 @@ class Setting extends CrudModel
                                 'visible'   => 'ce',
                             ],
                             [
-                                'name'      => 'store_phone',
+                                'name'      => 'translatable[store_phone]',
                                 'type'      => 'text',
                                 'visible'   => 'ce',
                             ],
