@@ -794,6 +794,36 @@ class Setting extends CrudModel
                     ],
                 ],
             ],
+            [
+                'name' => 'payment_methods',
+                'type' => 'group',
+                'visible'    => 'ce',
+                'tabs'=>  [
+                    [
+                        'name'  => 'cache_on_delivery',
+                        'type'  => 'tab',
+                        'visible'    => 'ce',
+                        'fields' => [
+                            [
+                                'name'      => 'cod_enabled',
+                                'type'      => 'select',
+                                'data'      => [ 'true' =>'yes', 'false'=>'no'],
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'translatable[cod_label]',
+                                'type'      => 'text',
+                                'visible'   => 'ce',
+                            ],
+                            [
+                                'name'      => 'translatable[cod_description]',
+                                'type'      => 'textarea',
+                                'visible'   => 'ce',
+                            ],
+                        ]
+                    ]
+                ],
+            ],
 
         ];
 
