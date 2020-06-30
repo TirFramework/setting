@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Tir\Setting\Entities\Setting;
 
 use Tir\Crud\Controllers\CrudController;
-use Tir\Setting\Entities\StorefrontSettingTranslation;
+use Tir\Setting\Entities\StoreSettingTranslation;
 
 class AdminSettingController extends CrudController
 {
