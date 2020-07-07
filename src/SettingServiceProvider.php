@@ -18,7 +18,7 @@ class SettingServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->registerSetting();
+            $this->registerSetting();
     }
 
     /**
@@ -31,6 +31,7 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/admin.php');
         $this->loadViewsFrom(__DIR__.'/Resources/Views', 'setting');
         $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
+
 
     }
 
