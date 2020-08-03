@@ -20,13 +20,15 @@ class AdminSettingController extends CrudController
     public function updateSetting(Request $request)
     {
 
-        foreach($request->except('_method', '_token','save_close','translatable') as $setting => $value){
+        foreach($request->except('_method', '_token','save_close','translatable') as $key => $value){
 
-            $setting = Setting::where('key',$setting)->first();
+            $setting = Setting::where('key',$key)->first();
 
             if($setting != null)
             {
                 $setting->update(['plain_value' => $value ]);
+            }else{
+                Setting::create(['key'=>$key, 'plain_value' => $value ]);
             }
 
         }
