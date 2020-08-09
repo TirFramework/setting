@@ -32,11 +32,23 @@ class SettingServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Resources/Views', 'setting');
         $this->loadMigrationsFrom(__DIR__ .'/Database/Migrations');
 
+        $this->loadTranslationsFrom(__DIR__ . '/Resources/Lang/', 'setting');
+
+        $this->adminMenu();
 
     }
 
-
-
+    /**
+     * Add menu.
+     *
+     * @return void
+     */
+    private function adminMenu()
+    {
+        $menu = resolve('AdminMenu');
+        $menu->item('setting')->title('setting::panel.setting')->link('#')->add();
+        $menu->item('setting.setting')->title('setting::panel.setting')->link('admin/setting')->add();
+    }
 
     /**
      * Register setting binding.

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Tir\Setting\Entities\Setting;
 
 use Tir\Crud\Controllers\CrudController;
-use Tir\Setting\Entities\StoreSettingTranslation;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminSettingController extends CrudController
 {
@@ -20,7 +20,7 @@ class AdminSettingController extends CrudController
     public function updateSetting(Request $request)
     {
 
-        foreach($request->except('_method', '_token','save_close','translatable') as $key => $value){
+        foreach($request->except('_method', '_token','save_edit','translatable') as $key => $value){
 
             $setting = Setting::where('key',$key)->first();
 
@@ -34,16 +34,18 @@ class AdminSettingController extends CrudController
         }
 
         //save translatable setting
-        foreach( $request->input('translatable') as  $setting => $value){
-            $setting = Setting::where('key',$setting)->first();
+        foreach( $request->input('translatable') as  $key => $value){
+            $setting = Setting::where('key',$key)->first();
             if($setting != null)
             {
                 $setting->update(['value' => $value]);
-
+            }else{
+                Setting::create(['key'=>$key, 'value' => $value , 'is_translatable' => 1 ] );
             }
         }
 
-        return redirect()->back();
+        return Redirect::to(route("setting.update"))->with('tab', $request->input('tab'));
+        // return redirect()->back();
 
     }
 
