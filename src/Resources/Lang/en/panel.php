@@ -50,4 +50,8 @@ return[
 
     'title' => 'title',
     'subtitle' => 'subtitle',
+    'site_phone' => 'site_phone',
+    'site_main_menu' => 'site_main_menu',
+    'site_logo' => 'site_logo',
+    'site_name' => 'site_name',
 ];
