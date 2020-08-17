@@ -34,7 +34,7 @@ class SettingServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/Resources/Lang/', 'setting');
 
-        $this->adminMenu();
+        //$this->adminMenu();
 
     }
 
@@ -43,12 +43,12 @@ class SettingServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function adminMenu()
-    {
-        $menu = resolve('AdminMenu');
-        $menu->item('setting')->title('setting::panel.setting')->link('#')->add();
-        $menu->item('setting.setting')->title('setting::panel.setting')->link('admin/setting')->add();
-    }
+//    private function adminMenu()
+//    {
+//        $menu = resolve('AdminMenu');
+//        $menu->item('setting')->title('setting::panel.setting')->link('#')->add();
+//        $menu->item('setting.setting')->title('setting::panel.setting')->link('admin/setting')->add();
+//    }
 
     /**
      * Register setting binding.
