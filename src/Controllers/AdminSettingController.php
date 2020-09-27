@@ -44,8 +44,7 @@ class AdminSettingController extends CrudController
             }
         }
 
-        return Redirect::to(route("setting.update"))->with('tab', $request->input('tab'));
-        // return redirect()->back();
+        return redirect()->back()->with('tab', $request->input('tab'));
 
     }
 
