@@ -19,7 +19,7 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('key');
-            $table->string('locale');
+            $table->string('locale')->nullable();
             $table->text('value')->nullable();
             $table->bigInteger('user_id');
             $table->timestamps();
