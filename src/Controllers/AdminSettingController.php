@@ -51,7 +51,7 @@ class AdminSettingController extends CrudController
         $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
         $fields = $this->model->getEditFields();
         foreach($fields as $field){
-            if(array_key_exists($field->name, $setting)){
+            if(isset($setting[$field->name])){
                 $field->value = $setting[$field->name];
             }
         }
