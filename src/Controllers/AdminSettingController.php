@@ -25,7 +25,6 @@ class AdminSettingController extends CrudController
      */
     public function saveSetting(Request $request)
     {
-
         foreach($request->except('_method', '_token', 'locale') as $key => $value){      
             $this->model->updateOrCreate(['key'=> $key],['value' => $value ]);
         }
@@ -52,7 +51,9 @@ class AdminSettingController extends CrudController
         $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
         $fields = $this->model->getEditFields();
         foreach($fields as $field){
-            $field->value = $setting[$field->name];
+            if(array_key_exists($field->name, $setting)){
+                $field->value = $setting[$field->name];
+            }
         }
 
         return Response::Json($fields, 200);
