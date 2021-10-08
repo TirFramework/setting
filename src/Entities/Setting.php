@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Tir\Crud\Support\Eloquent\BaseModel;
 use Tir\Crud\Support\Eloquent\IsTranslatable;
+use Tir\Crud\Support\Scaffold\Fields\Text;
 
 class Setting extends BaseModel
 {
@@ -14,7 +15,10 @@ class Setting extends BaseModel
 
     public function setFields():array
     {
-        return [];
+        return [
+                Text::make('setting1'),
+                Text::make('setting2')
+        ];
     }
 
 
@@ -29,7 +33,7 @@ class Setting extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['key', 'locale', 'value'];
+    protected $fillable = ['key', 'value'];
 
 
     /**
@@ -40,7 +44,7 @@ class Setting extends BaseModel
     public function getValidation()
     {
         return [
-            'key' => 'required',
+            'key' => 'required'
         ];
     }
 

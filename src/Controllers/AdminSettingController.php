@@ -2,9 +2,10 @@
 
 namespace Tir\Setting\Controllers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Tir\Setting\Entities\Setting;
 
+use Tir\Setting\Entities\Setting;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Tir\Crud\Controllers\CrudController;
@@ -25,19 +26,9 @@ class AdminSettingController extends CrudController
     public function saveSetting(Request $request)
     {
 
-        foreach($request->except('_method', '_token') as $key => $value){
-                        
-            $setting = Setting::where('key',$key)->first();
-            
-            if($setting != null)
-            {
-                $setting->update(['value' => $value ]);
-            }else{
-                Setting::create(['key'=>$key, 'value' => $value]);
-            }
-
+        foreach($request->except('_method', '_token', 'locale') as $key => $value){      
+            $this->model->updateOrCreate(['key'=> $key],['value' => $value ]);
         }
-
 
         $message = trans('setting::panel.setting-saved'); //translate message
 
@@ -50,16 +41,21 @@ class AdminSettingController extends CrudController
 
     }
 
-        /**
+    /**
      * This function update crud and relations
      * @param Request $request
      * @param $item
      */
-    public function editSetting($locale, $key)
+    public function editSetting()
     {
-        $setting = Setting::where('key',$key)->first();
+        $keys = Arr::pluck($this->model->getEditFields(),'name');
+        $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
+        $fields = $this->model->getEditFields();
+        foreach($fields as $field){
+            $field->value = $setting[$field->name];
+        }
 
-        return Response::Json($setting, 200);
+        return Response::Json($fields, 200);
 
     }
 
