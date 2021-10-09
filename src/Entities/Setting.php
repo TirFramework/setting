@@ -13,6 +13,8 @@ class Setting extends BaseModel
 {
     use IsTranslatable;
 
+    protected $table = 'settings';
+
     public function setFields():array
     {
         return [
