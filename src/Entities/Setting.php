@@ -15,6 +15,8 @@ class Setting extends BaseModel
 
     protected $table = 'settings';
 
+    protected $table = 'settings';
+
     public function setFields():array
     {
         return [
