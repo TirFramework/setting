@@ -11,7 +11,9 @@ use Tir\Crud\Support\Scaffold\Fields\Text;
 
 class Setting extends BaseModel
 {
-    use IsTranslatable;
+    // use IsTranslatable;
+
+    protected $table = 'settings';
 
     public function setFields():array
     {

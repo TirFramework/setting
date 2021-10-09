@@ -23,6 +23,7 @@ class CreateSettingsTable extends Migration
             $table->text('value')->nullable();
             $table->bigInteger('user_id');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::enableForeignKeyConstraints();
