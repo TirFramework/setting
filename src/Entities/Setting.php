@@ -13,7 +13,10 @@ class Setting extends BaseModel
 {
     // use IsTranslatable;
 
-    protected $table = 'settings';
+    
+    protected $casts = [
+        'value' => 'array',
+    ];
 
     protected $table = 'settings';
 
