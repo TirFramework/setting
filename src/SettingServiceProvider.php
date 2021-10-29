@@ -61,4 +61,11 @@ class SettingServiceProvider extends ServiceProvider
             return new SettingRepository(Setting::allCached());
         });
     }
+
+    // private function registerSetting()
+    // {
+    //     $this->app->singleton('setting', function () {
+    //         return new Setting;
+    //     });
+    // }
 }

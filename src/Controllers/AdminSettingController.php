@@ -45,8 +45,9 @@ class AdminSettingController extends CrudController
      * @param Request $request
      * @param $item
      */
-    public function editSetting()
+    public function editSetting($locale)
     {
+        request()->merge(['locale' => $locale]);
         $keys = Arr::pluck($this->model->getEditFields(),'name');
         $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
         $fields = $this->model->getEditFields();

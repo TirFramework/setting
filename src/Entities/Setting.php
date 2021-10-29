@@ -11,7 +11,7 @@ use Tir\Crud\Support\Scaffold\Fields\Text;
 
 class Setting extends BaseModel
 {
-    // use IsTranslatable;
+    use IsTranslatable;
 
     
     protected $casts = [
