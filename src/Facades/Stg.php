@@ -19,9 +19,9 @@ class Stg
             return app('setting');
         }
 
-        if (is_array($key)) {
-            return app('setting')->set($key);
-        }
+        // if (is_array($key)) {
+        //     return app('setting')->set($key);
+        // }
 
         try {
             return app('setting')->get($key, $default);

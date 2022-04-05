@@ -43,7 +43,8 @@ class Repository implements ArrayAccess
      */
     public function get($key, $default = null)
     {
-        return $this->settings->get($key) ?: $default;
+        $value = $this->settings->get($key) ?: $default;
+        return $value;
     }
 
     /**

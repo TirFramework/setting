@@ -2,49 +2,41 @@
 
 namespace Tir\Setting\Controllers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Tir\Setting\Entities\Setting;
 
+use Tir\Setting\Entities\Setting;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Response;
 use Tir\Crud\Controllers\CrudController;
-use Illuminate\Support\Facades\Redirect;
 
 class AdminSettingController extends CrudController
 {
-    protected $model = Setting::Class;
+
+    protected function SetModel():string
+    {
+        return Setting::class;
+    }
 
     /**
      * This function update crud and relations
      * @param Request $request
      * @param $item
      */
-    public function updateSetting(Request $request)
+    public function saveSetting(Request $request)
     {
-
-        foreach($request->except('_method', '_token','save_edit','translatable') as $key => $value){
-
-            $setting = Setting::where('key',$key)->first();
-
-            if($setting != null)
-            {
-                $setting->update(['plain_value' => $value ]);
-            }else{
-                Setting::create(['key'=>$key, 'plain_value' => $value ]);
-            }
-
+        foreach($request->except('_method', '_token', 'locale') as $key => $value){      
+            $this->model->updateOrCreate(['key'=> $key],['value' => $value ]);
         }
 
-        //save translatable setting
-        foreach( $request->input('translatable') as  $key => $value){
-            $setting = Setting::where('key',$key)->first();
-            if($setting != null)
-            {
-                $setting->update(['value' => $value]);
-            }else{
-                Setting::create(['key'=>$key, 'value' => $value , 'is_translatable' => 1 ] );
-            }
-        }
+        $message = trans('setting::panel.setting-saved'); //translate message
 
-        return redirect()->back()->with('tab', $request->input('tab'));
+        return Response::Json(
+            [
+                'saved' => true,
+                'message'    => $message,
+            ]
+            , 200);
 
     }
 
@@ -53,31 +45,22 @@ class AdminSettingController extends CrudController
      * @param Request $request
      * @param $item
      */
-    public function editSetting()
+    public function editSetting($locale)
     {
-
-
-        $settings = Setting::all();
-
-        $item = (object)[];
-        $translatable = [];
-
-        foreach($settings as $setting){
-            if($setting->is_translatable){
-                $translatable[$setting->key] = $setting->value;
-
-            }else{
-                $item->{$setting->key} = $setting->value;
+        request()->merge(['locale' => $locale]);
+        $keys = Arr::pluck($this->model->getEditFields(),'name');
+        $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
+        $fields = $this->model->getEditFields();
+        foreach($fields as $field){
+            if(isset($setting[$field->name])){
+                $field->value = $setting[$field->name];
             }
         }
 
-
-        $item->{'translatable'}= $translatable;
-        return view("setting::admin.edit")->with(['crud'=>$this->crud, 'item'=>$item]);
-
-
+        return Response::Json($fields, 200);
 
     }
+
 
 }
 

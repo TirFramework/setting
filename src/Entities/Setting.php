@@ -2,60 +2,45 @@
 
 namespace Tir\Setting\Entities;
 
-use Astrotomic\Translatable\Translatable;
-use Illuminate\Support\Facades\Cache;
-use Tir\Crud\Support\Eloquent\CrudModel;
 use Tir\Crud\Support\Facades\Crud;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
+use Tir\Crud\Support\Eloquent\BaseModel;
+use Tir\Crud\Support\Eloquent\IsTranslatable;
+use Tir\Crud\Support\Scaffold\Fields\Text;
 
-class Setting extends CrudModel
+class Setting extends BaseModel
 {
-    //Additional trait insert here
+    use IsTranslatable;
 
-    use Translatable;
+    
+    protected $casts = [
+        'value' => 'array',
+    ];
 
-    /**
-     * The attribute show route name
-     * and we use in fieldTypes and controllers
-     *
-     * @var string
-     */
-    public static $routeName = 'setting';
+    protected $table = 'settings';
 
-    public  $table = 'settings';
+    public function setFields():array
+    {
+        return [
+                Text::make('setting1'),
+                Text::make('setting2')
+        ];
+    }
+
+
+    public function setModuleName():string
+    {
+        return 'setting';
+    }
+    
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['key', 'is_translatable', 'plain_value'];
-
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_translatable' => 'boolean',
-        'plain_value' => 'array'
-
-    ];
-
-
-    /**
-     * The attributes that are translatable.
-     *
-     * @var array
-     */
-    public $translatedAttributes = ['value'];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['translations'];
+    protected $fillable = ['key', 'value'];
 
 
     /**
@@ -66,28 +51,9 @@ class Setting extends CrudModel
     public function getValidation()
     {
         return [
-            'key' => 'required',
-            'plain_value' => 'required'
+            'key' => 'required'
         ];
     }
-
-
-    /**
-     * This function return an object of field
-     * and we use this for generate admin panel page
-     * @return Object
-     */
-    public function getFields()
-    {
-
-
-
-        $fields = [
-        ];
-
-        return $fields;
-    }
-
 
 
 
@@ -102,7 +68,7 @@ class Setting extends CrudModel
      */
     public static function allCached()
     {
-        return Cache::tags(['settings'])->rememberForever('settings.all:' . Crud::locale(), function () {
+        return Cache::tags(['settings'])->rememberForever('settings.all:' . App::currentLocale(), function () {
             return self::all()->mapWithKeys(function ($setting) {
                 return [$setting->key => $setting->value];
             });
@@ -123,65 +89,58 @@ class Setting extends CrudModel
         return static::where('key', $key)->first()->value() ?? $default;
     }
 
-    /**
-     * Set the given settings.
-     *
-     * @param array $settings
-     * @return void
-     */
-    public static function setMany($settings)
-    {
-        foreach ($settings as $key => $value) {
-            self::set($key, $value);
-        }
-    }
 
-    /**
-     * Set the given setting.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
-    public static function set($key, $value)
-    {
-        if ($key === 'translatable') {
-            return static::setTranslatableSettings($value);
-        }
-        static::updateOrCreate(['key' => $key], ['plain_value' => $value]);
-    }
 
-    /**
-     * Set a translatable settings.
-     *
-     * @param array $settings
-     * @return void
-     */
-    public static function setTranslatableSettings($settings = [])
-    {
-        foreach ($settings as $key => $value) {
-            static::updateOrCreate(['key' => $key], [
-                'is_translatable' => true,
-                'value' => $value,
-            ]);
-        }
-    }
 
-    //Mutators ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Get the value of the setting.
-     *
-     * @return mixed
-     */
-    public function getValueAttribute()
-    {
-        if ($this->is_translatable) {
-            return $this->translateOrDefault(Crud::locale())->value ?? null;
-        }
 
-        return $this->plain_value;
-    }
+
+
+    // /**
+    //  * Set the given settings.
+    //  *
+    //  * @param array $settings
+    //  * @return void
+    //  */
+    // public static function setMany($settings)
+    // {
+    //     foreach ($settings as $key => $value) {
+    //         self::set($key, $value);
+    //     }
+    // }
+
+  
+    // /**
+    //  * Set a translatable settings.
+    //  *
+    //  * @param array $settings
+    //  * @return void
+    //  */
+    // public static function setTranslatableSettings($settings = [])
+    // {
+    //     foreach ($settings as $key => $value) {
+    //         static::updateOrCreate(['key' => $key], [
+    //             'is_translatable' => true,
+    //             'value' => $value,
+    //         ]);
+    //     }
+    // }
+
+    // //Mutators ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // /**
+    //  * Get the value of the setting.
+    //  *
+    //  * @return mixed
+    //  */
+    // public function getValueAttribute()
+    // {
+    //     if ($this->is_translatable) {
+    //         return $this->translateOrDefault(Crud::locale())->value ?? null;
+    //     }
+
+    //     return $this->plain_value;
+    // }
 
 
 }
