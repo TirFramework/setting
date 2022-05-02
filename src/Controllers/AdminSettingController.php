@@ -23,8 +23,9 @@ class AdminSettingController extends CrudController
      * @param Request $request
      * @param $item
      */
-    public function saveSetting(Request $request)
+    public function saveSetting(Request $request, $locale)
     {
+        request()->merge(['locale' => $locale]);
         foreach($request->except('_method', '_token', 'locale') as $key => $value){      
             $this->model->updateOrCreate(['key'=> $key],['value' => $value ]);
         }
