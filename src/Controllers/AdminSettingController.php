@@ -18,6 +18,18 @@ class AdminSettingController extends CrudController
         return Setting::class;
     }
 
+    protected function crudInit()
+    {
+        if(request()->input('crudActionName') == 'editSetting'){
+            request()->merge(['crudActionName'=>'edit']);
+        }
+
+        if(request()->input('crudActionName') == 'saveSetting'){
+            request()->merge(['crudActionName'=>'store']);
+        }
+    }
+
+
     /**
      * This function update crud and relations
      * @param Request $request

@@ -13,7 +13,7 @@ class Setting extends BaseModel
 {
     use IsTranslatable;
 
-    
+
     protected $casts = [
         'value' => 'array',
     ];
@@ -33,14 +33,14 @@ class Setting extends BaseModel
     {
         return 'setting';
     }
-    
+
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['key', 'value'];
+    protected $fillable = ['key', 'value', 'user_id'];
 
 
     /**
@@ -109,7 +109,7 @@ class Setting extends BaseModel
     //     }
     // }
 
-  
+
     // /**
     //  * Set a translatable settings.
     //  *
