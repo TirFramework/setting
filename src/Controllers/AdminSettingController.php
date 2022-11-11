@@ -26,8 +26,8 @@ class AdminSettingController extends CrudController
     public function saveSetting(Request $request, $locale)
     {
         request()->merge(['locale' => $locale]);
-        foreach($request->except('_method', '_token', 'locale') as $key => $value){      
-            $this->model->updateOrCreate(['key'=> $key],['value' => $value ]);
+        foreach($request->except('_method', '_token', 'locale') as $key => $value){
+            $this->model()->updateOrCreate(['key'=> $key],['value' => $value ]);
         }
 
         $message = trans('setting::panel.setting-saved'); //translate message
@@ -49,9 +49,9 @@ class AdminSettingController extends CrudController
     public function editSetting($locale)
     {
         request()->merge(['locale' => $locale]);
-        $keys = Arr::pluck($this->model->getEditFields(),'name');
-        $setting = $this->model->whereIn('key',$keys)->pluck('value','key');
-        $fields = $this->model->getEditFields();
+        $keys = Arr::pluck($this->model()->getEditFields(),'name');
+        $setting = $this->model()->whereIn('key',$keys)->pluck('value','key');
+        $fields = $this->model()->getEditFields();
         foreach($fields as $field){
             if(isset($setting[$field->name])){
                 $field->value = $setting[$field->name];
